@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Summarizer</title>
+</head>
+<body>
+    <input id="url" placeholder="GitHub URL">
+    <button onclick="summarize()">Summarize</button>
+    <pre id="output"></pre>
+ 
+    <script>
+    async function go() {
+        const url = document.getElementById('url').value;
+        const output = document.getElementById('output');
+        
+        const response = await fetch('/api/summarize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ github_url: url })
+        });
+        
+        const data = await response.json();
+        output.textContent = JSON.stringify(data);
+    }
+    </script>
+</body>
+</html>
