@@ -9,22 +9,32 @@
         <div align="center">
             <input id="url" placeholder="GitHub URL">
             <button onclick="summarize()">Summarize</button>
-            <pre id="output"></pre>
+            <div>
+                <p id="summary"></p>
+                <p id="technologies"></p>
+                <p id="structure"></p>
+            </div>
         </div>
     
         <script>
         async function summarize() {
             const url = document.getElementById('url').value;
-            const output = document.getElementById('output');
+            const summaryP = document.getElementById('summary');
+            const technologiesP = document.getElementById('technologies');
+            const structureP = document.getElementById('structure');
+
+            summaryP.textContent = "Summarizing...";
             
-            const response = await fetch('/api/summarize', {
+            const response = await fetch('/summarize', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ github_url: url })
             });
             
-            const data = await response.json();
-            output.textContent = JSON.stringify(data);
+            const { summary, technologies, structure } = await response.json();
+            summaryP.textContent = summary;
+            technologiesP.textContent = technologies.join(", ");
+            structureP.textContent = structure;
         }
         </script>
     </body>

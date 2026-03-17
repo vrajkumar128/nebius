@@ -2,12 +2,11 @@ import os
 import json
 from openai import OpenAI
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from mangum import Mangum
 
 app = FastAPI()
-handler = Mangum(app)
 
 load_dotenv()
 
@@ -30,7 +29,11 @@ class Error(BaseModel):
     status: int
     message: str
 
-@app.post('/api/summarize', response_model=Summary)
+@app.get("/")
+def root():
+    return FileResponse("index.html")
+
+@app.post('/summarize', response_model=Summary)
 def summarize(repository: Repository):
     try:
         response = client.chat.completions.create(
