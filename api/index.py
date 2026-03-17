@@ -4,8 +4,10 @@ from openai import OpenAI
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 from pydantic import BaseModel
+from mangum import Mangum
 
 app = FastAPI()
+handler = Mangum(app)
 
 load_dotenv()
 
