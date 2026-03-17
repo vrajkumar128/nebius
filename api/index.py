@@ -30,7 +30,7 @@ class Error(BaseModel):
     status: int
     message: str
 
-@app.post('/summarize', response_model=Summary)
+@app.post('/api/summarize', response_model=Summary)
 def summarize(repository: Repository):
     try:
         response = client.chat.completions.create(
