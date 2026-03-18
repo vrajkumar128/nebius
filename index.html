@@ -5,9 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>GitHub Summarizer</title>
     </head>
-    <body>
+    <body style="margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center">
         <div align="center">
+            <h1>Summarize a Repository</h1>
             <input id="url" placeholder="GitHub URL">
+            <br />
+            <br />
             <button onclick="summarize()">Summarize</button>
             <div>
                 <p id="summary"></p>
@@ -24,6 +27,8 @@
             const structureP = document.getElementById('structure');
 
             summaryP.textContent = "Summarizing...";
+            technologiesP.textContent = "";
+            structureP.textContent = "";
             
             const response = await fetch('/summarize', {
                 method: 'POST',
@@ -32,9 +37,9 @@
             });
             
             const { summary, technologies, structure } = await response.json();
-            summaryP.textContent = summary;
-            technologiesP.textContent = technologies.join(", ");
-            structureP.textContent = structure;
+            summaryP.textContent = `Summary: ${summary}`;
+            technologiesP.textContent = `Technologies: ${technologies.join(", ")}`;
+            structureP.textContent = `Structure: ${structure}`;
         }
         </script>
     </body>
